@@ -1,0 +1,155 @@
+lass="section">
+            <h3>1. 選擇麵條種類 (單選實體擬真材質)</h3>
+            <div id="noodleGroup">
+                <button class="food-btn" onclick="goN(this, &#39;螺旋麵&#39;)">🌀 螺旋麵</button>
+                <button class="food-btn" onclick="goN(this, &#39;筆管麵&#39;)">🥢 筆管麵</button>
+                <button class="food-btn" onclick="goN(this, &#39;蝴蝶麵&#39;)">🦋 蝴蝶麵</button>
+                <button class="food-btn" onclick="goN(this, &#39;貝殼麵&#39;)">🐚 貝殼麵</button>
+                <button class="food-btn" onclick="goN(this, &#39;麵疙瘩&#39;)">🥔 麵疙瘩</button>
+                <button class="food-btn" onclick="goN(this, &#39;直麵&#39;)">🍝 直麵</button>
+            </div>
+        </div>
+
+        <!-- 步驟 2：醬汁 -->
+        <div class="section">
+            <h3>2. 選擇美味廚神醬汁 (單選)</h3>
+            <div id="sauceGroup">
+                <button class="food-btn" onclick="goS(this, &#39;白醬&#39;, &#39;#FFFDF2&#39;)">🥛 奶油白醬</button>
+                <button class="food-btn" onclick="goS(this, &#39;紅醬&#39;, &#39;#C62828&#39;)">🍅 完熟紅醬</button>
+                <button class="food-btn" onclick="goS(this, &#39;青醬&#39;, &#39;#2E7D32&#39;)">🌿 羅勒青醬</button>
+                <button class="food-btn" onclick="goS(this, &#39;番茄肉醬&#39;, &#39;#781010&#39;)">🥩 義式番茄肉醬</button>
+            </div>
+        </div>
+
+        <!-- 步驟 3：配料 -->
+        <div class="section">
+            <h3>3. 加入特選配料照片 (可複選 / 重複點擊取消)</h3>
+            <div id="ingGroup">
+                <button class="food-btn" onclick="goI(this, &#39;花椰菜&#39;)">🥦 翠綠花椰菜</button>
+                <button class="food-btn" onclick="goI(this, &#39;菇&#39;)">🍄 特選鮮菇</button>
+                <button class="food-btn" onclick="goI(this, &#39;洋蔥&#39;)">🧅 鮮甜洋蔥絲</button>
+                <button class="food-btn" onclick="goI(this, &#39;玉米筍&#39;)">🌽 金黃玉米筍</button>
+                <button class="food-btn" onclick="goI(this, &#39;培根&#39;)">🥓 煙燻厚切培根</button>
+            </div>
+        </div>
+        
+       <!-- 下方融合大盤子 -->
+        <div class="plate-box">
+            <h3 style="margin-top:0; color:#b64300;">🍽️ 實體照片擺盤完成圖</h3>
+            
+            <!-- 擬真照片融合畫布（寬高獨立，完全不與按鈕重疊） -->
+            <canvas id="pastaCanvas" width="300" height="300"></canvas>
+
+            <div class="summary-card">
+                <strong>📋 今日點餐內容：</strong><br>
+                • 經典麵體：<span id="labelN" style="font-weight:bold; color:#b64300;">未選擇</span><br>
+                • 熬製醬汁：<span id="labelS" style="font-weight:bold; color:#b64300;">未選擇</span><br>
+                • 特選配料：<span id="labelI" style="font-weight:bold; color:#b64300;">無</span>
+            </div>
+            
+            <!-- 💾 儲存按鈕 -->
+            <button id="saveBtn" class="save-btn" onclick="saveDish()" disabled="">💾 儲存這盤美味料理圖片</button>
+        </div>
+
+    </div>
+
+    <script>
+        // 資料狀態儲存庫
+        var myPasta = { noodle: "", sauce: "", sauceColor: "", ingredients: [] };
+
+        // 1. 麵條點擊（點擊立刻變色，且絕對不會噴任何錯）
+        function goN(btn, name) {
+            var btns = document.getElementById("noodleGroup").getElementsByTagName("button");
+            for(var i=0; i<btns.length; i++) { btns[i].classList.remove("selected-n"); }
+            btn.classList.add("selected-n");
+            
+            myPasta.noodle = name;
+            document.getElementById("labelN").innerText = name;
+            drawPastaPhoto();
+        }
+
+        // 2. 醬汁點擊
+        function goS(btn, name, colorHex) {
+            var btns = document.getElementById("sauceGroup").getElementsByTagName("button");
+            for(var i=0; i<btns.length; i++) { btns[i].classList.remove("selected-s"); }
+            btn.classList.add("selected-s");
+            
+            myPasta.sauce = name;
+            myPasta.sauceColor = colorHex;
+            document.getElementById("labelS").innerText = name;
+            drawPastaPhoto();
+        }
+
+        // 3. 配料點擊 (複選)
+        function goI(btn, name) {
+            var idx = myPasta.ingredients.indexOf(name);
+            if(idx > -1) {
+                myPasta.ingredients.splice(idx, 1);
+                btn.classList.remove("selected-i");
+            } else {
+                myPasta.ingredients.push(name);
+                btn.classList.add("active-ing", "selected-i");
+            }
+            
+            document.getElementById("labelI").innerText = myPasta.ingredients.length > 0 ? myPasta.ingredients.join(" + ") : "無";
+            drawPastaPhoto();
+        }
+
+        // 🎨 核心：實體相片級立體融合引擎（加入防崩潰保護，變數沒好絕不強行畫圖）
+        function drawPastaPhoto() {
+            var canvas = document.getElementById("pastaCanvas");
+            var ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 陶瓷大白盤背景
+            ctx.beginPath();
+            ctx.arc(150, 150, 140, 0, Math.PI * 2);
+            ctx.fillStyle = "#FFFFFF"; ctx.fill();
+            ctx.strokeStyle = "#EAEFF2"; ctx.lineWidth = 4; ctx.stroke();
+
+            // 內圈浮雕槽
+            ctx.beginPath();
+            ctx.arc(150, 150, 110, 0, Math.PI * 2);
+            ctx.strokeStyle = "#F1F3F5"; ctx.lineWidth = 2; ctx.stroke();
+
+            // 融入光澤感濃郁醬汁
+            if(myPasta.sauce && myPasta.sauceColor) {
+                ctx.beginPath();
+                ctx.arc(150, 150, 100, 0, Math.PI * 2);
+                ctx.fillStyle = myPasta.sauceColor;
+                ctx.fill();
+
+                // 醬汁油亮照片質感高光膜
+                var grad = ctx.createRadialGradient(120, 120, 5, 150, 150, 90);
+                grad.addColorStop(0, "rgba(255, 255, 255, 0.15)");
+                grad.addColorStop(1, "rgba(0, 0, 0, 0.05)");
+                ctx.fillStyle = grad;
+                ctx.beginPath(); ctx.arc(150, 150, 100, 0, Math.PI * 2); ctx.fill();
+
+                // 🥩 正宗番茄肉醬：精準手工熬煮碎絞肉立體顆粒
+                if(myPasta.sauce === '番茄肉醬') {
+                    for(var i=0; i<85; i++) {
+                        ctx.fillStyle = (Math.random() > 0.4) ? '#4A0808' : '#5C0E0E';
+                        ctx.fillRect(90 + Math.random()*120, 90 + Math.random()*120, 3.5, 3.5);
+                    }
+                }
+            }
+
+            // 擬真3D實體麵條照片材質融入
+            if(myPasta.noodle) {
+                var pastaColor = (myPasta.sauce === "白醬") ? "#D1AD62" : "#FFEAA7";
+                var shadowColor = (myPasta.sauce === "白醬") ? "#A4813D" : "#D4AF37";
+
+                if(myPasta.noodle === "直麵") {
+                    for (var i = 0; i < 40; i++) {
+                        ctx.beginPath();
+                        ctx.moveTo(80 + Math.random()*50, 80 + Math.random()*130);
+                        ctx.bezierCurveTo(100 + Math.random()*100, 55 + Math.random()*150, 130 + Math.random()*100, 100 + Math.random()*100, 220 - Math.random()*50, 220 - Math.random()*140);
+                        ctx.strokeStyle = shadowColor; ctx.lineWidth = 4.5; ctx.stroke();
+                        ctx.strokeStyle = pastaColor; ctx.lineWidth = 3; ctx.stroke();
+                    }
+                } else if(myPasta.noodle === "螺旋麵") {
+                    for (var i = 0; i < 22; i++) {
+                        var x = 90 + Math.random() * 120; var y = 90 + Math.random() * 120;
+                        ctx.save(); ctx.translate(x, y); ctx.rotate(Math.random() * Math.PI);
+               
