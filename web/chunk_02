@@ -100,13 +100,21 @@
             }
         }
 
-        // 💾 一鍵高畫質 PNG 檔案儲存
+        // 💾 儲存 PNG：Android App 用原生 bridge；一般瀏覽器維持原下載方式
         function saveDish() {
             if(!myPasta.noodle || !myPasta.sauce) return;
             var canvas = document.getElementById("pastaCanvas");
+            var dataUrl = canvas.toDataURL("image/png");
+            var fileName = "我的擬真義大利麵完成圖.png";
+
+            if (window.AndroidImageSaver && typeof window.AndroidImageSaver.saveBase64Png === "function") {
+                window.AndroidImageSaver.saveBase64Png(dataUrl, fileName);
+                return;
+            }
+
             var link = document.createElement("a");
-            link.download = "我的擬真義大利麵完成圖.png";
-            link.href = canvas.toDataURL("image/png");
+            link.download = fileName;
+            link.href = dataUrl;
             link.click();
         }
 
