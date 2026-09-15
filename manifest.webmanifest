@@ -1,0 +1,10 @@
+{
+  "name": "NU小小廚師營 義大利麵工坊",
+  "short_name": "NU義大利麵工坊",
+  "lang": "zh-TW",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f3e9",
+  "theme_color": "#e65c00"
+}
