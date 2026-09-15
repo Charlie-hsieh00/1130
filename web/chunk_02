@@ -1,0 +1,119 @@
+          ctx.strokeStyle = shadowColor; ctx.lineWidth = 6.5;
+                        ctx.beginPath(); ctx.arc(0, 0, 9, 0, Math.PI * 1.4); ctx.stroke();
+                        ctx.strokeStyle = pastaColor; ctx.lineWidth = 4.5;
+                        ctx.beginPath(); ctx.arc(0, 0, 9, 0, Math.PI * 1.4); ctx.stroke();
+                        ctx.restore();
+                    }
+                } else if(myPasta.noodle === "筆管麵") {
+                    for (var i = 0; i < 20; i++) {
+                        var x = 90 + Math.random() * 120; var y = 90 + Math.random() * 120;
+                        ctx.save(); ctx.translate(x, y); ctx.rotate(Math.random() * Math.PI);
+                        ctx.fillStyle = shadowColor; ctx.fillRect(-14, -4, 28, 8);
+                        ctx.fillStyle = pastaColor; ctx.fillRect(-12, -3, 24, 6);
+                        ctx.fillStyle = "#320"; ctx.beginPath(); ctx.ellipse(-12, 0, 2, 2.5, 0, 0, Math.PI*2); ctx.fill();
+                        ctx.restore();
+                    }
+                } else if(myPasta.noodle === "蝴蝶麵") {
+                    for (var i = 0; i < 16; i++) {
+                        var x = 90 + Math.random() * 120; var y = 90 + Math.random() * 120;
+                        ctx.save(); ctx.translate(x, y); ctx.rotate(Math.random() * Math.PI);
+                        ctx.fillStyle = shadowColor;
+                        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-13, -9); ctx.lineTo(-13, 9); ctx.closePath(); ctx.fill();
+                        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(13, -9); ctx.lineTo(13, 9); ctx.closePath(); ctx.fill();
+                        ctx.fillStyle = pastaColor;
+                        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-11, -7); ctx.lineTo(-11, 7); ctx.closePath(); ctx.fill();
+                        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(12, -7); ctx.lineTo(12, 7); ctx.closePath(); ctx.fill();
+                        ctx.fillStyle = "#C69E3D"; ctx.fillRect(-2, -3, 4, 6);
+                        ctx.restore();
+                    }
+                } else if(myPasta.noodle === "貝殼麵") {
+                    for (var i = 0; i < 18; i++) {
+                        var x = 90 + Math.random() * 120; var y = 90 + Math.random() * 120;
+                        ctx.save(); ctx.translate(x, y); ctx.rotate(Math.random() * Math.PI);
+                        ctx.fillStyle = shadowColor; ctx.beginPath(); ctx.arc(0, 0, 12, 0, Math.PI, true); ctx.closePath(); ctx.fill();
+                        ctx.fillStyle = pastaColor; ctx.beginPath(); ctx.arc(0, 1, 10, 0, Math.PI, true); ctx.closePath(); ctx.fill();
+                        ctx.fillStyle = "rgba(90,60,15,0.25)"; ctx.beginPath(); ctx.ellipse(0, -2, 6, 3.5, 0, 0, Math.PI*2); ctx.fill();
+                        ctx.restore();
+                    }
+                } else if(myPasta.noodle === "麵疙瘩") {
+                    for (var i = 0; i < 16; i++) {
+                        var x = 90 + Math.random() * 120; var y = 90 + Math.random() * 120;
+                        ctx.fillStyle = shadowColor; ctx.beginPath(); ctx.ellipse(x, y, 16, 12, Math.random()*Math.PI, 0, Math.PI * 2); ctx.fill();
+                        ctx.fillStyle = pastaColor; ctx.beginPath(); ctx.ellipse(x-1, y-1, 14, 9, Math.random()*Math.PI, 0, Math.PI * 2); ctx.fill();
+                    }
+                }
+            }
+
+            // 擺盤四散的實體高質感配料照片層
+            myPasta.ingredients.forEach(function(ing) {
+                if (ing === '花椰菜') {
+                    ctx.font = '24px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    for (var i = 0; i < 5; i++) {
+                        var x = 100 + Math.random() * 100; var y = 100 + Math.random() * 100;
+                        ctx.fillText('🥦', x, y);
+                    }
+                }
+                if (ing === '菇') {
+                    for (var i = 0; i < 5; i++) {
+                        var x = 100 + Math.random() * 100; var y = 100 + Math.random() * 100;
+                        ctx.save(); ctx.translate(x, y); ctx.rotate(Math.random()*Math.PI);
+                        ctx.fillStyle = '#5D4037'; ctx.beginPath(); ctx.arc(0, 0, 10, Math.PI, 0); ctx.fill();
+                        ctx.fillStyle = '#D7CCC8'; ctx.fillRect(-2.5, 0, 5, 8);
+                        ctx.restore();
+                    }
+                }
+                if (ing === '洋蔥') {
+                    ctx.strokeStyle = 'rgba(245, 247, 250, 0.85)'; ctx.lineWidth = 3;
+                    for (var i = 0; i < 5; i++) {
+                        var x = 100 + Math.random() * 100; var y = 100 + Math.random() * 100;
+                        ctx.beginPath(); ctx.arc(x, y, 15, 0, Math.PI * (0.4 + Math.random()*0.5)); ctx.stroke();
+                    }
+                }
+                if (ing === '玉米筍') {
+                    for (var i = 0; i < 5; i++) {
+                        var x = 100 + Math.random() * 100; var y = 100 + Math.random() * 100;
+                        ctx.save(); ctx.translate(x, y); ctx.rotate(Math.random()*Math.PI);
+                        ctx.fillStyle = '#FBC02D'; ctx.fillRect(-15, -4, 30, 8);
+                        ctx.fillStyle = '#FFF59D'; ctx.fillRect(-13, -3, 26, 6);
+                        ctx.fillStyle = '#FBC02D'; ctx.fillRect(-7, -3, 2.5, 6); ctx.fillRect(2, -3, 2.5, 6);
+                        ctx.restore();
+                    }
+                }
+                if (ing === '培根') {
+                    for (var i = 0; i < 5; i++) {
+                        var x = 100 + Math.random() * 100; var y = 100 + Math.random() * 100;
+                        ctx.save(); ctx.translate(x, y); ctx.rotate(Math.random()*Math.PI);
+                        ctx.fillStyle = '#991B1B'; ctx.fillRect(-18, -6, 36, 12);
+                        ctx.fillStyle = '#FFAAAA'; ctx.fillRect(-18, -2, 36, 3);
+                        ctx.restore();
+                    }
+                }
+            });
+
+            // 啟用儲存按鈕
+            if(myPasta.noodle && myPasta.sauce) {
+                document.getElementById("saveBtn").disabled = false;
+            } else {
+                document.getElementById("saveBtn").disabled = true;
+            }
+        }
+
+        // 💾 一鍵高畫質 PNG 檔案儲存
+        function saveDish() {
+            if(!myPasta.noodle || !myPasta.sauce) return;
+            var canvas = document.getElementById("pastaCanvas");
+            var link = document.createElement("a");
+            link.download = "我的擬真義大利麵完成圖.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        }
+
+        // 初始化安全空盤
+        drawPastaPhoto();
+    </script>
+
+
+
+</html>
