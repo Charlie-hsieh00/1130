@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- saved from url=(0092)file:///C:/Users/User/Downloads/%E5%BB%9A%E5%B8%AB%E7%87%9F/%E5%BB%9A%E5%B8%AB%E7%87%9F.html -->
+<html lang="zh-TW" data-immersive-translate-page-theme="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NU義大利麵工坊</title>
+    <style>
+        body { background-color: #f7f3e9; color: #3e3329; font-family: Arial, sans-serif; text-align: center; padding: 10px; margin: 0; -webkit-tap-highlight-color: transparent; }
+        .header { background: linear-gradient(135deg, #e65c00, #f9d423); color: white; padding: 12px; border-radius: 12px; margin-bottom: 15px; }
+        .header h2 { margin: 0; font-size: 20px; } .header p { margin: 4px 0 0 0; font-size: 12px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .section { background: white; border: 1px solid #e3dec3; border-radius: 14px; padding: 12px; margin-bottom: 12px; text-align: left; position: relative; z-index: 10000; }
+        .section h3 { margin: 0 0 8px 0; color: #b64300; font-size: 15px; border-bottom: 2px solid #f7f3e9; padding-bottom: 4px; }
+        .food-label { background-color: #ffffff; border: 2px solid #d4ceb8; border-radius: 12px; padding: 10px 14px; font-size: 15px; font-weight: bold; cursor: pointer; margin: 5px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); -webkit-user-select: none; user-select: none; }
+        .hidden-radio, .hidden-checkbox { display: none !important; }
+        
+        /* 🕹️ 按鈕亮燈變色反應（100% 物理通行） */
+        #r_n1:checked ~ .container .food-label[for="r_n1"], #r_n2:checked ~ .container .food-label[for="r_n2"], #r_n3:checked ~ .container .food-label[for="r_n3"], #r_n4:checked ~ .container .food-label[for="r_n4"], #r_n5:checked ~ .container .food-label[for="r_n5"], #r_n6:checked ~ .container .food-label[for="r_n6"] { background-color: #fff3cd !important; border-color: #ffc107 !important; box-shadow: 0 0 6px rgba(255,193,7,0.3); }
+        #r_s1:checked ~ .container .food-label[for="r_s1"], #r_s2:checked ~ .container .food-label[for="r_s2"], #r_s3:checked ~ .container .food-label[for="r_s3"], #r_s4:checked ~ .container .food-label[for="r_s4"] { background-color: #fff3cd !important; border-color: #ffc107 !important; box-shadow: 0 0 6px rgba(255,193,7,0.3); }
+        #c_i1:checked ~ .container .food-label[for="c_i1"], #c_i2:checked ~ .container .food-label[for="c_i2"], #c_i3:checked ~ .container .food-label[for="c_i3"], #c_i4:checked ~ .container .food-label[for="c_i4"], #c_i5:checked ~ .container .food-label[for="c_i5"] { background-color: #d1e7dd !important; border-color: #198754 !important; box-shadow: 0 0 6px rgba(25,135,84,0.3); }
+        
+        .plate-box { background: white; border: 2px solid #cc4e1d; border-radius: 18px; padding: 15px; margin-top: 15px; display: inline-block; width: 95%; max-width: 340px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .photo-plate { width: 280px; height: 280px; background-color: #ffffff; border: 10px solid #f1f3f5; border-radius: 50%; margin: 10px auto; position: relative; overflow: hidden; }
+        .plate-line { position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px; border: 1px dashed #cbd5e1; border-radius: 50%; }
+        .photo-layer { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease-in-out; pointer-events: none; }
+ 	/* 💡 選中時的亮燈狀態（改用最保險的 CSS Class 切換） */
+        .food-btn.selected-n { background-color: #fff3cd !important; border-color: #ffc107 !important; }
+        .food-btn.selected-s { background-color: #f8d7da !important; border-color: #dc3545 !important; }
+        .food-btn.selected-i { background-color: #d1e7dd !important; border-color: #198754 !important; }
+        
+
+        /* 💡 完美圖層順序：醬汁最下層（10）、實體麵條在中間（20）、配料最上面一層（30） */
+        .sauce-layer { z-index: 10; } .noodle-layer { z-index: 20; } .ing-layer { z-index: 30; }
+
+        /* 📸 高清實體麵條相片級光影與油脂感材質控制 */
+        .real-noodle-photo { font-size: 76px; filter: drop-shadow(2px 5px 6px rgba(74,48,15,0.45)); position: relative; font-weight: bold; }
+        .shell-photo-group, .gnocchi-photo-group, .ing-pic-group { width: 100%; height: 100%; position: relative; }
+        
+        /* 貝殼麵橫向寫實螺紋與手工疙瘩捏痕分佈 */
+        .shell-photo-item { position: absolute; font-size: 42px; filter: drop-shadow(3px 4px 6px rgba(66,40,10,0.4)); }
+        .gnocchi-photo-item { position: absolute; font-size: 40px; filter: drop-shadow(3px 5px 7px rgba(50,30,5,0.35)); }
+        
+        .sauce-pic { width: 220px; height: 220px; border-radius: 50%; filter: blur(2px); position: relative; }
+        .sauce-pic::after { content: ''; position: absolute; top: 15px; left: 15px; width: 190px; height: 190px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.05) 80%); }
+        .sticker-pic, .broccoli-item { position: absolute; font-size: 38px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)); }
+        .meat-particle { position: absolute; font-size: 11px; opacity: 0.7; }
+
+        /* 💡 兄弟物理現形通道：點選後大盤子內部的食材照片 100% 流暢浮現 */
+        #r_n1:checked ~ .container .plate-box .photo-plate #p_n1 { opacity: 1; } #r_n2:checked ~ .container .plate-box .photo-plate #p_n2 { opacity: 1; } #r_n3:checked ~ .container .plate-box .photo-plate #p_n3 { opacity: 1; } #r_n4:checked ~ .container .plate-box .photo-plate #p_n4 { opacity: 1; } #r_n5:checked ~ .container .plate-box .photo-plate #p_n5 { opacity: 1; } #r_n6:checked ~ .container .plate-box .photo-plate #p_n6 { opacity: 1; }
+        #r_s1:checked ~ .container .plate-box .photo-plate #p_s1 { opacity: 1; } #r_s2:checked ~ .container .plate-box .photo-plate #p_s2 { opacity: 1; } #r_s3:checked ~ .container .plate-box .photo-plate #p_s3 { opacity: 1; } #r_s4:checked ~ .container .plate-box .photo-plate #p_s4 { opacity: 1; }
+        #c_i1:checked ~ .container .plate-box .photo-plate #p_i1 { opacity: 1; } #c_i2:checked ~ .container .plate-box .photo-plate #p_i2 { opacity: 1; } #c_i3:checked ~ .container .plate-box .photo-plate #p_i3 { opacity: 1; } #c_i4:checked ~ .container .plate-box .photo-plate #p_i4 { opacity: 1; } #c_i5:checked ~ .container .plate-box .photo-plate #p_i5 { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <!-- 外層物理原生通道（0行指令防鎖死核心） -->
+    <input type="radio" name="noodle" id="r_n1" class="hidden-radio"> <input type="radio" name="noodle" id="r_n2" class="hidden-radio"> <input type="radio" name="noodle" id="r_n3" class="hidden-radio"> <input type="radio" name="noodle" id="r_n4" class="hidden-radio"> <input type="radio" name="noodle" id="r_n5" class="hidden-radio"> <input type="radio" name="noodle" id="r_n6" class="hidden-radio">
+    <input type="radio" name="sauce" id="r_s1" class="hidden-radio"> <input type="radio" name="sauce" id="r_s2" class="hidden-radio"> <input type="radio" name="sauce" id="r_s3" class="hidden-radio"> <input type="radio" name="sauce" id="r_s4" class="hidden-radio">
+    <input type="checkbox" id="c_i1" class="hidden-checkbox"> <input type="checkbox" id="c_i2" class="hidden-checkbox"> <input type="checkbox" id="c_i3" class="hidden-checkbox"> <input type="checkbox" id="c_i4" class="hidden-checkbox"> <input type="checkbox" id="c_i5" class="hidden-checkbox">
+
+  <div class="header">
+        <h2>🧑‍🍳 NU小小廚師營 義大利麵工坊</h2>
+        <p>【專屬回娘家創意魔幻工坊】</p>
+    </div>   
+
+ <div class="container">
+        
+        <!-- 步驟 1：麵條 -->
+        <div c
