@@ -1,0 +1,16 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'tw.nu.pasta.workshop'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'tw.nu.pasta.workshop'
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
+}
