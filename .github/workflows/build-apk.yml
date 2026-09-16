@@ -1,0 +1,47 @@
+name: Build NU Pasta APK
+
+on:
+  push:
+    branches:
+      - nu-pasta-apk-build
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Reconstruct original web app
+        run: |
+          mkdir -p app/src/main/assets
+          cat web/chunk_00 web/chunk_01 web/chunk_02 > app/src/main/assets/index.html
+          wc -c app/src/main/assets/index.html
+
+      - name: Build debug APK
+        run: gradle assembleDebug --stacktrace
+
+      - name: Rename APK
+        run: |
+          mkdir -p dist
+          cp app/build/outputs/apk/debug/app-debug.apk 'dist/NU義大利麵工坊.apk'
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: NU義大利麵工坊-APK
+          path: dist/NU義大利麵工坊.apk
+          if-no-files-found: error
